@@ -1,0 +1,51 @@
+{% extends 'store/base.html' %}
+{% block title %}Manage Orders — Admin{% endblock %}
+{% block content %}
+<div class="container-fluid py-4 px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="section-title mb-0"><i class="bi bi-bag me-2"></i>Manage Orders</h2>
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-dark btn-sm">← Dashboard</a>
+    </div>
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr><th>Order #</th><th>Customer</th><th>Amount</th><th>Payment</th><th>Status</th><th>Date</th><th>Update</th></tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td><span style="color:#e94560; font-weight:600;">#{{ order.order_number }}</span></td>
+                        <td>{{ order.user.username }}<br><small class="text-muted">{{ order.email }}</small></td>
+                        <td class="fw-bold">₹{{ order.total_amount }}</td>
+                        <td>
+                            {% if order.payment_status == 'paid' %}<span class="badge bg-success">Paid</span>
+                            {% else %}<span class="badge bg-warning text-dark">{{ order.get_payment_status_display }}</span>{% endif %}
+                        </td>
+                        <td>
+                            <form method="post" action="{% url 'admin_update_order_status' order.id %}" class="d-flex gap-2 align-items-center">
+                                {% csrf_token %}
+                                <select name="status" class="form-select form-select-sm" style="width:auto;">
+                                    {% for val, label in order.STATUS_CHOICES %}
+                                    <option value="{{ val }}" {% if order.status == val %}selected{% endif %}>{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button class="btn btn-sm btn-accent" type="submit">Update</button>
+                            </form>
+                        </td>
+                        <td class="text-muted small">{{ order.created_at|date:"d M Y" }}</td>
+                        <td>
+                            {% if order.transaction %}
+                            <small class="text-success"><i class="bi bi-shield-check"></i></small>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="7" class="text-center text-muted py-4">No orders yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

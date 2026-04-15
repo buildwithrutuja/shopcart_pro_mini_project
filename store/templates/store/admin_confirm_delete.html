@@ -1,0 +1,18 @@
+{% extends 'store/base.html' %}
+{% block title %}Confirm Delete — Admin{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="card p-5 text-center mx-auto" style="max-width:500px;">
+        <i class="bi bi-exclamation-triangle-fill text-danger" style="font-size:4rem;"></i>
+        <h3 class="mt-3">Confirm Delete</h3>
+        <p class="text-muted">Are you sure you want to delete <strong>{{ object }}</strong>? This action cannot be undone.</p>
+        <form method="post" class="d-flex gap-3 justify-content-center mt-3">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger px-4">
+                <i class="bi bi-trash me-2"></i>Yes, Delete
+            </button>
+            <a href="{% url 'admin_products' %}" class="btn btn-outline-secondary px-4">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

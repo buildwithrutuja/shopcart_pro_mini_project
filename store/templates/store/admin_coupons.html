@@ -1,0 +1,62 @@
+{% extends 'store/base.html' %}
+{% block title %}Manage Coupons — Admin{% endblock %}
+{% block content %}
+<div class="container-fluid py-4 px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="section-title mb-0"><i class="bi bi-ticket-perforated me-2"></i>Manage Coupons</h2>
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-dark btn-sm">← Dashboard</a>
+    </div>
+    <div class="row g-4">
+        <!-- Create Coupon -->
+        <div class="col-lg-4">
+            <div class="card p-4">
+                <h5 class="fw-bold mb-4">Create New Coupon</h5>
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label fw-600 small">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}<div class="text-danger small">{{ field.errors }}</div>{% endif %}
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-accent w-100">
+                        <i class="bi bi-plus-lg me-2"></i>Create Coupon
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!-- Coupon List -->
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead><tr><th>Code</th><th>Type</th><th>Value</th><th>Used/Max</th><th>Active</th><th>Valid Until</th></tr></thead>
+                        <tbody>
+                            {% for coupon in coupons %}
+                            <tr>
+                                <td><strong style="color:#9c27b0; letter-spacing:1px;">{{ coupon.code }}</strong></td>
+                                <td><span class="badge bg-secondary">{{ coupon.discount_type }}</span></td>
+                                <td class="fw-600">
+                                    {% if coupon.discount_type == 'percentage' %}{{ coupon.discount_value }}%
+                                    {% else %}₹{{ coupon.discount_value }}{% endif %}
+                                </td>
+                                <td>{{ coupon.used_count }}/{{ coupon.max_uses }}</td>
+                                <td>
+                                    {% if coupon.is_active and coupon.is_valid %}<span class="badge bg-success">Active</span>
+                                    {% elif coupon.is_active %}<span class="badge bg-warning text-dark">Expired</span>
+                                    {% else %}<span class="badge bg-secondary">Inactive</span>{% endif %}
+                                </td>
+                                <td class="text-muted small">{{ coupon.valid_until|date:"d M Y" }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="6" class="text-center text-muted py-4">No coupons yet.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

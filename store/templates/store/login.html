@@ -1,0 +1,50 @@
+{% extends 'store/base.html' %}
+{% block title %}Login — ShopCart Pro{% endblock %}
+{% block content %}
+<div class="auth-bg">
+  <div class="position-relative" style="width:100%;max-width:460px;z-index:1;">
+    <div class="text-center mb-4">
+      <a href="{% url 'home' %}" style="font-size:2rem;font-weight:900;color:white;text-decoration:none;">
+        🛒 <span style="background:linear-gradient(135deg,#34d399,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">ShopCart Pro</span>
+      </a>
+    </div>
+    <div class="auth-card">
+      <div class="text-center mb-4">
+        <div style="width:60px;height:60px;background:var(--gradient-btn);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 16px;">🔑</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--text-primary);">Welcome Back!</h2>
+        <p style="color:var(--text-muted);font-size:0.9rem;margin-top:6px;">Sign in to your account</p>
+      </div>
+      <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label">Username</label>
+          <div class="input-icon-wrap">
+            <i class="bi bi-person input-icon"></i>
+            {{ form.username }}
+          </div>
+        </div>
+        <div class="mb-4">
+          <label class="form-label">Password</label>
+          <div class="input-icon-wrap">
+            <i class="bi bi-lock input-icon"></i>
+            {{ form.password }}
+          </div>
+        </div>
+        <button type="submit" class="btn-primary-grad w-100 justify-content-center" style="padding:14px;">
+          <i class="bi bi-box-arrow-in-right"></i> Sign In
+        </button>
+      </form>
+      <p class="text-center mt-4" style="color:var(--text-muted);font-size:0.88rem;">
+        Don't have an account? <a href="{% url 'register' %}" style="color:var(--emerald);font-weight:600;text-decoration:none;">Create one free →</a>
+      </p>
+      <div class="mt-4 p-3 rounded-xl text-center" style="background:var(--bg-secondary);border:1px solid var(--border);">
+        <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Demo Credentials</div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <span style="background:rgba(16,185,129,0.1);color:var(--emerald);padding:4px 12px;border-radius:8px;font-size:0.8rem;font-family:monospace;">admin / admin123</span>
+          <span style="background:rgba(59,130,246,0.1);color:var(--royal);padding:4px 12px;border-radius:8px;font-size:0.8rem;font-family:monospace;">customer1 / pass@1234</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

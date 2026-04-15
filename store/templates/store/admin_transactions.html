@@ -1,0 +1,38 @@
+{% extends 'store/base.html' %}
+{% block title %}Transactions — Admin{% endblock %}
+{% block content %}
+<div class="container-fluid py-4 px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="section-title mb-0"><i class="bi bi-credit-card me-2"></i>Transactions</h2>
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-dark btn-sm">← Dashboard</a>
+    </div>
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr><th>Transaction ID</th><th>Order #</th><th>Customer</th><th>Amount</th><th>Method</th><th>Status</th><th>Date</th></tr>
+                </thead>
+                <tbody>
+                    {% for txn in transactions %}
+                    <tr>
+                        <td><code style="color:#4caf50; font-size:.8rem;">{{ txn.transaction_id }}</code></td>
+                        <td><span style="color:#e94560; font-weight:600;">#{{ txn.order.order_number }}</span></td>
+                        <td>{{ txn.order.user.username }}</td>
+                        <td class="fw-bold">₹{{ txn.amount }}</td>
+                        <td class="small text-muted">{{ txn.payment_method }}</td>
+                        <td>
+                            {% if txn.status == 'success' %}<span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Success</span>
+                            {% elif txn.status == 'failed' %}<span class="badge bg-danger">Failed</span>
+                            {% else %}<span class="badge bg-warning text-dark">{{ txn.status }}</span>{% endif %}
+                        </td>
+                        <td class="text-muted small">{{ txn.created_at|date:"d M Y, H:i" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="7" class="text-center text-muted py-4">No transactions yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

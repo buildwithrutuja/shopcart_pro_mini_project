@@ -1,0 +1,72 @@
+{% extends 'store/base.html' %}
+{% block title %}Register — ShopCart Pro{% endblock %}
+{% block content %}
+<div class="auth-bg">
+  <div class="position-relative" style="width:100%;max-width:520px;z-index:1;">
+    <div class="text-center mb-4">
+      <a href="{% url 'home' %}" style="font-size:2rem;font-weight:900;color:white;text-decoration:none;">
+        🛒 <span style="background:linear-gradient(135deg,#34d399,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">ShopCart Pro</span>
+      </a>
+    </div>
+    <div class="auth-card">
+      <div class="text-center mb-4">
+        <div style="width:60px;height:60px;background:var(--gradient-btn);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 16px;">✨</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--text-primary);">Create Account</h2>
+        <p style="color:var(--text-muted);font-size:0.9rem;margin-top:6px;">Join ShopCart Pro for free today</p>
+      </div>
+      <form method="post">
+        {% csrf_token %}
+        <div class="row g-3">
+          <div class="col-6">
+            <label class="form-label">First Name</label>
+            {{ form.first_name }}
+          </div>
+          <div class="col-6">
+            <label class="form-label">Last Name</label>
+            {{ form.last_name }}
+          </div>
+          <div class="col-12">
+            <label class="form-label">Username *</label>
+            <div class="input-icon-wrap">
+              <i class="bi bi-person input-icon"></i>
+              {{ form.username }}
+            </div>
+            {% if form.username.errors %}<div style="color:#ef4444;font-size:0.8rem;margin-top:4px;">{{ form.username.errors }}</div>{% endif %}
+          </div>
+          <div class="col-12">
+            <label class="form-label">Email *</label>
+            <div class="input-icon-wrap">
+              <i class="bi bi-envelope input-icon"></i>
+              {{ form.email }}
+            </div>
+          </div>
+          <div class="col-6">
+            <label class="form-label">Password *</label>
+            <div class="input-icon-wrap">
+              <i class="bi bi-lock input-icon"></i>
+              {{ form.password1 }}
+            </div>
+            {% if form.password1.errors %}<div style="color:#ef4444;font-size:0.8rem;margin-top:4px;">{{ form.password1.errors }}</div>{% endif %}
+          </div>
+          <div class="col-6">
+            <label class="form-label">Confirm Password *</label>
+            <div class="input-icon-wrap">
+              <i class="bi bi-lock-fill input-icon"></i>
+              {{ form.password2 }}
+            </div>
+            {% if form.password2.errors %}<div style="color:#ef4444;font-size:0.8rem;margin-top:4px;">{{ form.password2.errors }}</div>{% endif %}
+          </div>
+          <div class="col-12 mt-2">
+            <button type="submit" class="btn-primary-grad w-100 justify-content-center" style="padding:14px;">
+              <i class="bi bi-person-plus"></i> Create My Account
+            </button>
+          </div>
+        </div>
+      </form>
+      <p class="text-center mt-4" style="color:var(--text-muted);font-size:0.88rem;">
+        Already have an account? <a href="{% url 'login' %}" style="color:var(--emerald);font-weight:600;text-decoration:none;">Sign in →</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}
